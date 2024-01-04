@@ -1,20 +1,18 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, } from 'react';
+import { works } from '/public/brahms.json';
 
-export default function BrahmsMusicSearch() {
+export default function BrahmsMusicPage() {
   const [searchResults, setSearchResults] = useState([]);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    const formData = BrahmsMusicSearch(event.target);
+    const formData = new FormData(event.target);
     const query = formData.get("query");
-    const matches = await search(query);
+    const matches = await brahmsMusicSearch(query);
     setSearchResults(matches);
   }
-  const BrahmsMusicSearch = () => {
-    fetch("/api/brahms.json")
-      .then((res) => res.json())
-      .then((json) => console.log(json));
+  const brahmsMusicSearch = (query) => {
 
     const matchworks = works.filter(work => {
       return work.title.toLowerCase().includes(query.toLowerCase()) ||
